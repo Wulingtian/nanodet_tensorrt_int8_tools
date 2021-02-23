@@ -51,14 +51,13 @@ def preprocess_v1(image_raw):
 
 def preprocess(image_raw):
     h, w, c = image_raw.shape
-    image = cv2.cvtColor(image_raw, cv2.COLOR_BGR2RGB)
     # Calculate widht and height and paddings
     if float(width) / float(image_raw.shape[1]) < float(height) / float(image_raw.shape[0]):
         ratio = float(width) / float(image_raw.shape[1])
     else:
         ratio = float(height) / float(image_raw.shape[0])
     # Resize the image with long side while maintaining ratio
-    rz_image = cv2.resize(image, (int(image_raw.shape[0]*ratio), int(image_raw.shape[1]*ratio)))
+    rz_image = cv2.resize(image_raw, (int(image_raw.shape[0]*ratio), int(image_raw.shape[1]*ratio)))
     # Pad the short side with (0,0,0)
     image = np.zeros((width,height,3),np.float32)
     image[0:int(image_raw.shape[1]*ratio),0:int(image_raw.shape[0]*ratio)] = rz_image
