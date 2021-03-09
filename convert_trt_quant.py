@@ -57,10 +57,10 @@ def preprocess(image_raw):
     else:
         ratio = float(height) / float(image_raw.shape[0])
     # Resize the image with long side while maintaining ratio
-    rz_image = cv2.resize(image_raw, (int(image_raw.shape[0]*ratio), int(image_raw.shape[1]*ratio)))
+    rz_image = cv2.resize(image_raw, (round(image_raw.shape[1]*ratio), round(image_raw.shape[0]*ratio)))
     # Pad the short side with (0,0,0)
-    image = np.zeros((width,height,3),np.float32)
-    image[0:int(image_raw.shape[1]*ratio),0:int(image_raw.shape[0]*ratio)] = rz_image
+    image = np.zeros((height,width,3),np.float32)
+    image[:rz_image.shape[0], :rz_image.shape[1]] = rz_image
     image = image.astype(np.float32)
     # Normalize to [0,1]
     image -= img_mean
